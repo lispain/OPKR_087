@@ -5,11 +5,13 @@
 #include <QApplication>
 #include <QString>
 #include <QSoundEffect>
+#include <string>  //opkr
 
 #include "cereal/messaging/messaging.h"
 #include "selfdrive/common/util.h"
 #include "selfdrive/hardware/hw.h"
 #include "selfdrive/ui/ui.h"
+#include "selfdrive/common/params.h"
 
 // TODO: detect when we can't play sounds
 // TODO: detect when we can't display the UI
@@ -25,7 +27,12 @@ public:
       {AudibleAlert::CHIME_WARNING2_REPEAT, "../assets/sounds/warning_2.wav", false},
       {AudibleAlert::CHIME_WARNING_REPEAT, "../assets/sounds/warning_repeat.wav", false},
       {AudibleAlert::CHIME_ERROR, "../assets/sounds/error.wav", false},
-      {AudibleAlert::CHIME_PROMPT, "../assets/sounds/error.wav", false}
+      {AudibleAlert::CHIME_PROMPT, "../assets/sounds/error.wav", false},
+      {AudibleAlert::CHIME_MODE_OPENPILOT, "../assets/sounds/modeopenpilot.wav", false},
+      {AudibleAlert::CHIME_MODE_DISTCURV, "../assets/sounds/modedistcurv.wav", false},
+      {AudibleAlert::CHIME_MODE_DISTANCE, "../assets/sounds/modedistance.wav", false},
+      {AudibleAlert::CHIME_MODE_ONEWAY, "../assets/sounds/modeoneway.wav", false},
+      {AudibleAlert::CHIME_MODE_MAPONLY, "../assets/sounds/modemaponly.wav", false}
     };
     for (auto &[alert, fn, loops] : sound_list) {
       sounds[alert].first.setSource(QUrl::fromLocalFile(fn));
@@ -47,20 +54,8 @@ private slots:
     sm->update(100);
     if (sm->updated("carState")) {
       // scale volume with speed
-      if (QUIState::ui_state.scene.scr.nVolumeBoost < 0) {
-        volume = 0.0;
-      } else if (QUIState::ui_state.scene.scr.nVolumeBoost > 1) {
-        volume = QUIState::ui_state.scene.scr.nVolumeBoost * 0.01;
-      } else {
-        volume = util::map_val((*sm)["carState"].getCarState().getVEgo(), 0.f, 20.f,
-                              Hardware::MIN_VOLUME, Hardware::MAX_VOLUME);
-      }
-    } else {
-      if (QUIState::ui_state.scene.scr.nVolumeBoost < 0) {
-        volume = 0.0;
-      } else if (QUIState::ui_state.scene.scr.nVolumeBoost > 1) {
-        volume = QUIState::ui_state.scene.scr.nVolumeBoost * 0.01;
-      }
+      volume = util::map_val((*sm)["carState"].getCarState().getVEgo(), 0.f, 20.f,
+                             Hardware::MIN_VOLUME, Hardware::MAX_VOLUME);
     }
     if (sm->updated("controlsState")) {
       const cereal::ControlsState::Reader &cs = (*sm)["controlsState"].getControlsState();
@@ -90,12 +85,13 @@ private slots:
       if (alert.sound != AudibleAlert::NONE) {
         auto &[sound, loops] = sounds[alert.sound];
         sound.setLoopCount(loops);
-        if (QUIState::ui_state.scene.scr.nVolumeBoost > 1) {
-          volume = QUIState::ui_state.scene.scr.nVolumeBoost * 0.01;
-        } else if (QUIState::ui_state.scene.scr.nVolumeBoost < 0) {
-          volume = 0.0;
+        if ((std::stof(Params().get("OpkrUIVolumeBoost")) * 0.01) < -0.03) {
+          sound.setVolume(0.0);
+        } else if ((std::stof(Params().get("OpkrUIVolumeBoost")) * 0.01) > 0.03) {
+          sound.setVolume(std::stof(Params().get("OpkrUIVolumeBoost")) * 0.01);
+        } else {
+          sound.setVolume(volume);
         }
-        sound.setVolume(volume);
         sound.play();
       }
     }
