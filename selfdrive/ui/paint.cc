@@ -494,7 +494,7 @@ static void ui_draw_vision_cameradist(UIState *s) {
   snprintf(str, sizeof(str), "%.1f", (float)cameradistkm);
   
   //int viz_max_o = 184; //offset value to move right
-  const Rect rect = {bdr_s, bdr_s, 184+viz_max_o, 202};
+  const Rect rect = {bdr_s, bdr_s, 184, 202};
   NVGcolor color = COLOR_WHITE;
     
   if (s->is_speed_over_limit) {
@@ -639,7 +639,7 @@ static void ui_draw_vision_speed(UIState *s) {
   
   // turning blinker sequential crwusiz / mod by arne-fork Togo
   const int viz_blinker_w = 280;
-  const int viz_blinker_x = s->viz_rect.centerX() - 140;
+  const int viz_blinker_x = s->fb_w/2 - 140;
   const int viz_add = 50;
   
   if(scene->leftBlinker || scene->rightBlinker) {
@@ -657,18 +657,18 @@ static void ui_draw_vision_speed(UIState *s) {
 
     if(s->scene.leftBlinker) {
       nvgBeginPath(s->vg);
-      nvgMoveTo(s->vg, viz_blinker_x - (viz_add*offset)                    , s->viz_rect.y + (header_h/4.2));
-      nvgLineTo(s->vg, viz_blinker_x - (viz_add*offset) - (viz_blinker_w/2), s->viz_rect.y + (header_h/2.1));
-      nvgLineTo(s->vg, viz_blinker_x - (viz_add*offset)                    , s->viz_rect.y + (header_h/1.4));
+      nvgMoveTo(s->vg, viz_blinker_x - (viz_add*offset)                    , header_h/4.2);
+      nvgLineTo(s->vg, viz_blinker_x - (viz_add*offset) - (viz_blinker_w/2), header_h/2.1);
+      nvgLineTo(s->vg, viz_blinker_x - (viz_add*offset)                    , header_h/1.4);
       nvgClosePath(s->vg);
       nvgFillColor(s->vg, nvgRGBA(255,190,70,(scene->blinker_blinkingrate<=120 && scene->blinker_blinkingrate>=50)?70:0));
       nvgFill(s->vg);
     }
     if(s->scene.rightBlinker) {
       nvgBeginPath(s->vg);
-      nvgMoveTo(s->vg, viz_blinker_x + (viz_add*offset) + viz_blinker_w      , s->viz_rect.y + (header_h/4.2));
-      nvgLineTo(s->vg, viz_blinker_x + (viz_add*offset) + (viz_blinker_w*1.5), s->viz_rect.y + (header_h/2.1));
-      nvgLineTo(s->vg, viz_blinker_x + (viz_add*offset) + viz_blinker_w      , s->viz_rect.y + (header_h/1.4));
+      nvgMoveTo(s->vg, viz_blinker_x + (viz_add*offset) + viz_blinker_w      , header_h/4.2);
+      nvgLineTo(s->vg, viz_blinker_x + (viz_add*offset) + (viz_blinker_w*1.5), header_h/2.1);
+      nvgLineTo(s->vg, viz_blinker_x + (viz_add*offset) + viz_blinker_w      , header_h/1.4);
       nvgClosePath(s->vg);
       nvgFillColor(s->vg, nvgRGBA(255,190,70,(scene->blinker_blinkingrate<=120 && scene->blinker_blinkingrate>=50)?70:0));
       nvgFill(s->vg);
@@ -694,8 +694,8 @@ static void ui_draw_vision_event(UIState *s) {
   const bool is_cruise_set = maxspeed != 0 && maxspeed != SET_SPEED_NA && s->scene.controls_state.getEnabled();
   if (is_cruise_set && !s->scene.is_metric) { maxspeed *= 0.6225; }
   
-  const int center_x = s->viz_rect.x + (bdr_s) + 184 + 15;
-  const int center_y = int(s->viz_rect.y + (bdr_s));
+  const int center_x = radius + bdr_s;
+  const int center_y = s->fb_h - footer_h + ((footer_h - radius) / 2);
   /*
   if (s->scene.limitSpeedCamera > 29 && !s->scene.comma_stock_ui) {
     int img_speedlimit_growing_size_init = 0;
