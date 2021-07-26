@@ -116,10 +116,10 @@ static void draw_lead(UIState *s, const cereal::RadarState::LeadData::Reader &le
 
   if (s->scene.radarDistance < 149) {
     draw_chevron(s, x, y, sz, nvgRGBA(201, 34, 49, fillAlpha), COLOR_YELLOW);
-    ui_draw_text(s, x-12, y + sz/1.5f+10, "R", 20 * 2.5, COLOR_WHITE, "sans-bold"); //neokii
+    ui_draw_text(s, x, y + sz/1.5f, "R", 20 * 2.5, COLOR_WHITE, "sans-bold"); //neokii
   } else {
     draw_chevron(s, x, y, sz, nvgRGBA(165, 255, 135, fillAlpha), COLOR_GREEN);
-    ui_draw_text(s, x-12, y + sz/1.5f+10, "C", 20 * 2.5, COLOR_BLACK, "sans-bold"); //hoya
+    ui_draw_text(s, x, y + sz/1.5f, "C", 20 * 2.5, COLOR_BLACK, "sans-bold"); //hoya
   }
 }
 
