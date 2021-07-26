@@ -508,48 +508,26 @@ static void ui_draw_vision_cameradist(UIState *s) {
   ui_fill_rect(s->vg, rect, color, 20.);
   nvgTextAlign(s->vg, NVG_ALIGN_CENTER | NVG_ALIGN_BASELINE); 
   
-  
-  if (s->nCameraWarning) {
-    if (s->scene.mapSign == 165 && s->scene.limitSpeedCameraDist > 1000) {
-      color = COLOR_WHITE_ALPHA(0);
-      ui_draw_rect(s->vg, rect, color, 10, 0.);
-      //const std::string cameradist_str = std::to_string((int)std::nearbyint(cameradist));
-      ui_draw_text(s, rect.centerX() - 20, bdr_s+185, str, 34 * 2.0, COLOR_WHITE, "sans-bold");
-      ui_draw_text(s, rect.centerX() + 55, bdr_s+185, "km", 25 * 1.6, COLOR_WHITE, "sans-bold");
-    } else if (s->scene.limitSpeedCamera > 29){
-      color = COLOR_WHITE_ALPHA(0);
-      ui_draw_rect(s->vg, rect, color, 10, 0.);
-      const std::string cameradist_str = std::to_string((int)std::nearbyint(cameradist));
-      ui_draw_text(s, rect.centerX() - 15, bdr_s+185, cameradist_str.c_str(), 34 * 2.0, COLOR_WHITE, "sans-bold");
-      ui_draw_text(s, rect.centerX() + 55, bdr_s+185, "m", 25 * 1.6, COLOR_WHITE, "sans-bold");
-    } else {
-      color = COLOR_WHITE_ALPHA(0);
-      ui_draw_rect(s->vg, rect, color, 10, 0.);
-      const std::string cameradist_str = std::to_string((int)std::nearbyint(cameradist));
-      ui_draw_text(s, rect.centerX() - 15, bdr_s+185, cameradist_str.c_str(), 34 * 2.0, COLOR_WHITE_ALPHA(0), "sans-semibold");
-      ui_draw_text(s, rect.centerX() + 65, bdr_s+185, "m", 25 * 1.6, COLOR_WHITE_ALPHA(0), "sans-semibold");
-    } 
+  if (s->scene.mapSign == 165 && s->scene.limitSpeedCameraDist > 1000) {
+    color = COLOR_WHITE_ALPHA(0);
+    ui_draw_rect(s->vg, rect, color, 10, 0.);
+    //const std::string cameradist_str = std::to_string((int)std::nearbyint(cameradist));
+    ui_draw_text(s, rect.centerX() - 20, bdr_s+185, str, 34 * 2.0, COLOR_WHITE, "sans-bold");
+    ui_draw_text(s, rect.centerX() + 55, bdr_s+185, "km", 25 * 1.6, COLOR_WHITE, "sans-bold");
+  } else if (s->scene.limitSpeedCamera > 29){
+    color = COLOR_WHITE_ALPHA(0);
+    ui_draw_rect(s->vg, rect, color, 10, 0.);
+    const std::string cameradist_str = std::to_string((int)std::nearbyint(cameradist));
+    ui_draw_text(s, rect.centerX() - 15, bdr_s+185, cameradist_str.c_str(), 34 * 2.0, COLOR_WHITE, "sans-bold");
+    ui_draw_text(s, rect.centerX() + 55, bdr_s+185, "m", 25 * 1.6, COLOR_WHITE, "sans-bold");
   } else {
-    if (s->scene.mapSign == 165 && s->scene.limitSpeedCameraDist > 1000) {
-      color = COLOR_WHITE_ALPHA(0);
-      ui_draw_rect(s->vg, rect, color, 10, 0.);
-      //const std::string cameradist_str = std::to_string((int)std::nearbyint(cameradist));
-      ui_draw_text(s, rect.centerX() - 20, bdr_s+185, str, 34 * 2.0, COLOR_WHITE, "sans-bold");
-      ui_draw_text(s, rect.centerX() + 55, bdr_s+185, "km", 25 * 1.6, COLOR_WHITE, "sans-bold");
-    } else if (s->scene.limitSpeedCamera > 29){
-      color = COLOR_WHITE_ALPHA(0);
-      ui_draw_rect(s->vg, rect, color, 10, 0.);
-      const std::string cameradist_str = std::to_string((int)std::nearbyint(cameradist));
-      ui_draw_text(s, rect.centerX() - 15, bdr_s+185, cameradist_str.c_str(), 34 * 2.0, COLOR_WHITE, "sans-bold");
-      ui_draw_text(s, rect.centerX() + 55, bdr_s+185, "m", 25 * 1.6, COLOR_WHITE, "sans-bold");
-    } else {
-      color = COLOR_WHITE_ALPHA(0);
-      ui_draw_rect(s->vg, rect, color, 10, 0.);
-      const std::string cameradist_str = std::to_string((int)std::nearbyint(cameradist));
-      ui_draw_text(s, rect.centerX() - 15, bdr_s+185, cameradist_str.c_str(), 34 * 2.0, COLOR_WHITE_ALPHA(0), "sans-semibold");
-      ui_draw_text(s, rect.centerX() + 65, bdr_s+185, "m", 25 * 1.6, COLOR_WHITE_ALPHA(0), "sans-semibold");
-    }
-  }
+    color = COLOR_WHITE_ALPHA(0);
+    ui_draw_rect(s->vg, rect, color, 10, 0.);
+    const std::string cameradist_str = std::to_string((int)std::nearbyint(cameradist));
+    ui_draw_text(s, rect.centerX() - 15, bdr_s+185, cameradist_str.c_str(), 34 * 2.0, COLOR_WHITE_ALPHA(0), "sans-semibold");
+    ui_draw_text(s, rect.centerX() + 65, bdr_s+185, "m", 25 * 1.6, COLOR_WHITE_ALPHA(0), "sans-semibold");
+  } 
+}
 /*
 static void ui_draw_vision_maxspeed(UIState *s) {
   const int SET_SPEED_NA = 255;
