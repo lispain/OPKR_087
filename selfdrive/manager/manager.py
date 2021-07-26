@@ -94,7 +94,7 @@ def manager_init():
     ("RightCurvOffsetAdj", "0"),
     ("DebugUi1", "0"),
     ("DebugUi2", "0"),
-    ("CameraWarning", "0"),
+    ("CameraWarning", "0")
     ("LongLogDisplay", "0"),
     ("OpkrBlindSpotDetect", "1"),
     ("OpkrMaxAngleLimit", "90"),
