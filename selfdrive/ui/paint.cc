@@ -115,10 +115,10 @@ static void draw_lead(UIState *s, const cereal::RadarState::LeadData::Reader &le
 
   if (s->scene.radarDistance < 149) {
     draw_chevron(s, x, y, sz, nvgRGBA(201, 34, 49, fillAlpha), COLOR_YELLOW);
-    ui_draw_text(s, x, y + sz/1.5f, "R", 20 * 2.5, COLOR_WHITE, "sans-bold"); //neokii
+    ui_draw_text(s, x-12, y + sz/1.5f+10, "R", 20 * 2.5, COLOR_WHITE, "sans-bold"); //neokii
   } else {
     draw_chevron(s, x, y, sz, nvgRGBA(165, 255, 135, fillAlpha), COLOR_GREEN);
-    ui_draw_text(s, x, y + sz/1.5f, "C", 20 * 2.5, COLOR_BLACK, "sans-bold"); //hoya
+    ui_draw_text(s, x-12, y + sz/1.5f+10, "C", 20 * 2.5, COLOR_BLACK, "sans-bold"); //hoya
   }
 }
 
@@ -726,38 +726,38 @@ static void ui_draw_vision_event(UIState *s) {
   // 구간단속구간일 경우 
   if (s->scene.mapSign == 165 ) { 
     if (s->scene.limitSpeedCamera < 70 && s->scene.limitSpeedCamera != 0) {
-      ui_draw_image(s, {center_x - 82, center_y - 65, 180, 180}, "section_60", 0.8f);
+      ui_draw_image(s, {center_x - 84, center_y - 65, 180, 180}, "section_60", 0.8f);
     } else if (s->scene.limitSpeedCamera < 80 && s->scene.limitSpeedCamera != 0) {
-      ui_draw_image(s, {center_x - 82, center_y - 65, 180, 180}, "section_70", 0.8f);
+      ui_draw_image(s, {center_x - 84, center_y - 65, 180, 180}, "section_70", 0.8f);
     } else if (s->scene.limitSpeedCamera < 90 && s->scene.limitSpeedCamera != 0) {
-      ui_draw_image(s, {center_x - 82, center_y - 65, 180, 180}, "section_80", 0.8f);
+      ui_draw_image(s, {center_x - 84, center_y - 65, 180, 180}, "section_80", 0.8f);
     } else if (s->scene.limitSpeedCamera < 100 && s->scene.limitSpeedCamera != 0) {
-      ui_draw_image(s, {center_x - 82, center_y - 65, 180, 180}, "section_90", 0.8f);
+      ui_draw_image(s, {center_x - 84, center_y - 65, 180, 180}, "section_90", 0.8f);
     } else if (s->scene.limitSpeedCamera < 110 && s->scene.limitSpeedCamera != 0) {
-      ui_draw_image(s, {center_x - 82, center_y - 65, 180, 180}, "section_100", 0.8f);
+      ui_draw_image(s, {center_x - 84, center_y - 65, 180, 180}, "section_100", 0.8f);
     } else if (s->scene.limitSpeedCamera < 120 && s->scene.limitSpeedCamera != 0) {
-      ui_draw_image(s, {center_x - 82, center_y - 65, 180, 180}, "section_110", 0.8f);
+      ui_draw_image(s, {center_x - 84, center_y - 65, 180, 180}, "section_110", 0.8f);
     }
   // 일반적인 과속단속구간일 경우  
   } else { 
     if (s->scene.limitSpeedCamera < 40 && s->scene.limitSpeedCamera != 0) {
-      ui_draw_image(s, {center_x - 82, center_y - 65, 180, 180}, "speed_30", 0.8f);
+      ui_draw_image(s, {center_x - 84, center_y - 65, 180, 180}, "speed_30", 0.8f);
     } else if (s->scene.limitSpeedCamera < 50 && s->scene.limitSpeedCamera != 0) {
-      ui_draw_image(s, {center_x - 82, center_y - 65, 180, 180}, "speed_40", 0.8f);
+      ui_draw_image(s, {center_x - 84, center_y - 65, 180, 180}, "speed_40", 0.8f);
     } else if (s->scene.limitSpeedCamera < 60 && s->scene.limitSpeedCamera != 0) {
-      ui_draw_image(s, {center_x - 82, center_y - 65, 180, 180}, "speed_50", 0.8f);
+      ui_draw_image(s, {center_x - 84, center_y - 65, 180, 180}, "speed_50", 0.8f);
     } else if (s->scene.limitSpeedCamera < 70 && s->scene.limitSpeedCamera != 0) {
-      ui_draw_image(s, {center_x - 82, center_y - 65, 180, 180}, "speed_60", 0.8f);
+      ui_draw_image(s, {center_x - 84, center_y - 65, 180, 180}, "speed_60", 0.8f);
     } else if (s->scene.limitSpeedCamera < 80 && s->scene.limitSpeedCamera != 0) {
-      ui_draw_image(s, {center_x - 82, center_y - 65, 180, 180}, "speed_70", 0.8f);
+      ui_draw_image(s, {center_x - 84, center_y - 65, 180, 180}, "speed_70", 0.8f);
     } else if (s->scene.limitSpeedCamera < 90 && s->scene.limitSpeedCamera != 0) {
-      ui_draw_image(s, {center_x - 82, center_y - 65, 180, 180}, "speed_80", 0.8f);
+      ui_draw_image(s, {center_x - 84, center_y - 65, 180, 180}, "speed_80", 0.8f);
     } else if (s->scene.limitSpeedCamera < 100 && s->scene.limitSpeedCamera != 0) {
-      ui_draw_image(s, {center_x - 82, center_y - 65, 180, 180}, "speed_90", 0.8f);
+      ui_draw_image(s, {center_x - 84, center_y - 65, 180, 180}, "speed_90", 0.8f);
     } else if (s->scene.limitSpeedCamera < 110 && s->scene.limitSpeedCamera != 0) {
-      ui_draw_image(s, {center_x - 82, center_y - 65, 180, 180}, "speed_100", 0.8f);
+      ui_draw_image(s, {center_x - 84, center_y - 65, 180, 180}, "speed_100", 0.8f);
     } else if (s->scene.limitSpeedCamera < 120 && s->scene.limitSpeedCamera != 0) {
-      ui_draw_image(s, {center_x - 82, center_y - 65, 180, 180}, "speed_110", 0.8f);
+      ui_draw_image(s, {center_x - 84, center_y - 65, 180, 180}, "speed_110", 0.8f);
     }
   }
   
