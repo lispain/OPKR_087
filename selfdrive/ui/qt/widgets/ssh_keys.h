@@ -348,18 +348,6 @@ public:
   }
 };
 
-class CameraWarningToggle : public ToggleControl {
-  Q_OBJECT
-
-public:
-  CameraWarningToggle() : ToggleControl("과속단속 이미지 위치", "", "../assets/offroad/icon_shell.png", Params().getBool("CameraWarning")) {
-    QObject::connect(this, &DebugUiTwoToggle::toggleFlipped, [=](int state) {
-      char value = state ? '1' : '0';
-      Params().put("CameraWarning", &value, 0);
-    });
-  }
-};
-
 class PrebuiltToggle : public ToggleControl {
   Q_OBJECT
 
