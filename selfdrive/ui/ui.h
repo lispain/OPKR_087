@@ -299,6 +299,7 @@ typedef struct UIState {
   bool is_speed_over_limit;
   bool nDebugUi1;
   bool nDebugUi2;
+  bool nCameraWarning;
   bool nOpkrBlindSpotDetect;
   bool sidebar_view;
 
