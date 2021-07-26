@@ -538,6 +538,7 @@ UserPanel::UserPanel(QWidget* parent) : QWidget(parent) {
   layout->addWidget(new DebugUiOneToggle());
   layout->addWidget(new DebugUiTwoToggle());
   layout->addWidget(new LongLogToggle());
+  layout->addWidget(new CameraWarningToggle());
   layout->addWidget(new PrebuiltToggle());
   layout->addWidget(new FPTwoToggle());
   layout->addWidget(new LDWSToggle());
