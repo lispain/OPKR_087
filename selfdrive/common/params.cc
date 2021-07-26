@@ -281,6 +281,7 @@ std::unordered_map<std::string, uint32_t> keys = {
     {"DebugUi1", PERSISTENT},
     {"DebugUi2", PERSISTENT},
     {"LongLogDisplay", PERSISTENT},
+    {"CameraWarning", PERSISTENT},
     {"OpkrBlindSpotDetect", PERSISTENT},
     {"OpkrMaxAngleLimit", PERSISTENT},
     {"OpkrSpeedLimitOffset", PERSISTENT},
