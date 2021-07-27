@@ -78,10 +78,10 @@ class LongControl():
     self.candidate = candidate
     self.long_log = Params().get_bool("LongLogDisplay")
 
-    # self.vRel_prev = 0
-    # self.decel_damping = 1.0
-    # self.decel_damping2 = 1.0
-    # self.damping_timer = 0
+    self.vRel_prev = 0
+    self.decel_damping = 1.0
+    self.decel_damping2 = 1.0
+    self.damping_timer = 0
 
   def reset(self, v_pid):
     """Reset PID controller and change setpoint"""
