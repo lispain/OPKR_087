@@ -20,16 +20,18 @@ typedef struct LiveMapDataResult {
       float distanceToTurn;    // Float32;
       bool  mapValid;    // bool;
       bool  mapEnable;    // bool;
+      long  tv_sec;
+      long  tv_nsec;
 } LiveMapDataResult;
 
 
 int main() {
   setpriority(PRIO_PROCESS, 0, -15);
-
-  int     nTime = 0;
-  int     oTime = 0;
-  int     sTime = 0;
-  bool    sBump = false;
+  long  nLastTime = 0, nDelta2 = 0;
+  long  nDelta_nsec = 0;
+  bool  sBump = false;
+  long  tv_nsec;
+  float tv_nsec2;
 
   ExitHandler do_exit;
   PubMaster pm({"liveMapData"});
@@ -67,13 +69,16 @@ int main() {
       last_log_time.tv_sec = entry.tv_sec;
       last_log_time.tv_nsec = entry.tv_nsec;
 
+      tv_nsec2 = entry.tv_nsec / 1000000;
+      tv_nsec =  entry.tv_sec * 1000ULL + long(tv_nsec2); // per 1000 = 1s
+
       MessageBuilder msg;
       auto framed = msg.initEvent().initLiveMapData();
 
-      nTime++;
-      if( nTime > 10 )
+      nDelta2 = entry.tv_sec - nLastTime;
+      if( nDelta2 >= 1 )
       {
-        nTime = 0;
+        nLastTime = entry.tv_sec;
         res.mapEnable = Params().getBool("OpkrMapEnable");
         res.mapValid = Params().getBool("OpkrApksEnable");
         sBump = Params().getBool("OpkrSpeedBump");
@@ -82,29 +87,34 @@ int main() {
    //  opkrspdlimit, opkrspddist, opkrsigntype, opkrcurvangle
 
       // code based from atom
+      nDelta_nsec = tv_nsec - res.tv_nsec;
+      //nDelta = entry.tv_sec - res.tv_sec;
+
       if( strcmp( entry.tag, "opkrspddist" ) == 0 )
       {
-        oTime = 0;
+        res.tv_sec = entry.tv_sec;
+        res.tv_nsec = tv_nsec;
         res.speedLimitDistance = atoi( entry.message );
       }
       else if( strcmp( entry.tag, "opkrspdlimit" ) == 0 )
       {
-        oTime = 0;
         res.speedLimit = atoi( entry.message );
       }
       else if( strcmp( entry.tag, "opkrsigntype" ) == 0 )
       {
-        oTime = 0;
-        sTime = 0;
+        res.tv_sec = entry.tv_sec;
+        res.tv_nsec = tv_nsec;
         res.safetySign = atoi( entry.message );
         if (res.safetySign == 124) {
           Params().put("OpkrSpeedBump", "1", 1);
+          sBump = true;
         }
       }
       else if( (res.speedLimitDistance > 1 && res.speedLimitDistance < 60) && (strcmp( entry.tag, "AudioFlinger" ) == 0) )  //   msm8974_platform
       {
         res.speedLimitDistance = 0;
         res.speedLimit = 0;
+        res.safetySign = 0;
         //system("logcat -c &");
       }
       else if( strcmp( entry.tag, "opkrturninfo" ) == 0 )
@@ -115,27 +125,30 @@ int main() {
       {
         res.distanceToTurn = atoi( entry.message );
       }
-      else if( (strcmp( entry.tag, "GestureControl" ) == 0) && (res.speedLimit == 0) )
+      else if( nDelta_nsec > 5000 )
       {
-        sTime++;
-        if ( sTime > 4 )
-        {
-          sTime = 0;
-          res.safetySign = 0;
-        }
-        else if ( (sTime > 1) && (!sBump) )
-        {
-          res.safetySign = 0;
-        }
-      }
-      else if( strcmp( entry.tag, "GestureControl" ) == 0 )
-      {
-        oTime++;
-        if ( oTime > 2 )
-        {
-          oTime = 0;
+        res.tv_sec = entry.tv_sec;
+        res.tv_nsec = tv_nsec;
+        if (res.safetySign == 197 && res.speedLimitDistance < 100) {
           res.speedLimitDistance = 0;
           res.speedLimit = 0;
+          res.safetySign = 0;
+        }
+        else if ( res.safetySign == 124 && (!sBump) )
+        {
+          res.safetySign = 0;
+        }
+        else if (res.safetySign != 0 && res.speedLimitDistance < 50 && res.speedLimitDistance > 0)
+        {
+          res.speedLimitDistance = 0;
+          res.speedLimit = 0;
+          res.safetySign = 0;
+        }
+        else if( nDelta_nsec > 10000 )
+        {
+          res.speedLimitDistance = 0;
+          res.speedLimit = 0;
+          res.safetySign = 0;
         }
       }
 
@@ -145,6 +158,7 @@ int main() {
       // framed.setRoadCurvature( res.roadCurvature ); // road_curvature Float32;
       framed.setTurnInfo( res.turnInfo );  // Float32;
       framed.setDistanceToTurn( res.distanceToTurn );  // Float32;
+      framed.setTs( res.tv_sec );
       framed.setMapEnable( res.mapEnable );
       framed.setMapValid( res.mapValid );
 
@@ -168,14 +182,14 @@ int main() {
 
 
     */  
-      
-     // if( opkr )
-     // {
-     // printf("logcat ID(%d) - PID=%d tag=%d.[%s] \n", log_msg.id(), entry.pid,  entry.tid, entry.tag);
-     // printf("entry.message=[%s]\n", entry.message);
+      // printf("tv_nsec = [%ld] tv_nsec2 = [%f]\n", tv_nsec, tv_nsec2);
+      // if( opkr )
+      // {
+      // printf("logcat ID(%d) - PID=%d tag=%d.[%s] \n", log_msg.id(), entry.pid,  entry.tid, entry.tag);
+      // printf("entry.message=[%s]\n", entry.message);
       // printf("spd = %f\n", res.speedLimit );
       // printf("spd = %d\n", oTime );
-     // }
+      // }
 
       pm.send("liveMapData", msg);
     }

@@ -19,7 +19,7 @@ public:
 };
 
 // SSH key management widget
-class SshControl : public AbstractControl {
+class SshControl : public ButtonControl {
   Q_OBJECT
 
 public:
@@ -28,7 +28,6 @@ public:
 private:
   Params params;
 
-  QPushButton btn;
   QLabel username_label;
 
   void refresh();
@@ -1452,7 +1451,9 @@ public:
 
 private:
   QPushButton btn;
+  QPushButton btn2;
   Params params;
   
   void refresh();
+  void refresh2();
 };
