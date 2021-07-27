@@ -24,13 +24,13 @@ LANE_CHANGE_TIME_MAX = 10.
 DESIRES = {
   LaneChangeDirection.none: {
     LaneChangeState.off: log.LateralPlan.Desire.none,
-    LaneChangeState.preLaneChange: log.LateralPlan.Desire.none,
+    LaneChangeState.preLaneChange: log.LateralPlan.Desire.keepLeft,
     LaneChangeState.laneChangeStarting: log.LateralPlan.Desire.none,
     LaneChangeState.laneChangeFinishing: log.LateralPlan.Desire.none,
   },
   LaneChangeDirection.left: {
     LaneChangeState.off: log.LateralPlan.Desire.none,
-    LaneChangeState.preLaneChange: log.LateralPlan.Desire.none,
+    LaneChangeState.preLaneChange: log.LateralPlan.Desire.keepRight,
     LaneChangeState.laneChangeStarting: log.LateralPlan.Desire.laneChangeLeft,
     LaneChangeState.laneChangeFinishing: log.LateralPlan.Desire.laneChangeLeft,
   },
@@ -67,6 +67,7 @@ class LateralPlanner():
     self.lane_change_direction = LaneChangeDirection.none
     self.lane_change_timer = 0.0
     self.lane_change_ll_prob = 1.0
+    self.keep_pulse_timer = 0.0
     self.prev_one_blinker = False
     self.desire = log.LateralPlan.Desire.none
 
@@ -198,6 +199,16 @@ class LateralPlanner():
     self.prev_one_blinker = one_blinker
 
     self.desire = DESIRES[self.lane_change_direction][self.lane_change_state]
+    
+    # Send keep pulse once per second during LaneChangeStart.preLaneChange
+    if self.lane_change_state in [LaneChangeState.off, LaneChangeState.laneChangeStarting]:
+      self.keep_pulse_timer = 0.0
+    elif self.lane_change_state == LaneChangeState.preLaneChange:
+      self.keep_pulse_timer += DT_MDL
+      if self.keep_pulse_timer > 1.0:
+        self.keep_pulse_timer = 0.0
+      elif self.desire in [log.LateralPlan.Desire.keepLeft, log.LateralPlan.Desire.keepRight]:
+        self.desire = log.LateralPlan.Desire.none
 
     # Turn off lanes during lane change
     if self.desire == log.LateralPlan.Desire.laneChangeRight or self.desire == log.LateralPlan.Desire.laneChangeLeft:
