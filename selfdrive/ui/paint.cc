@@ -519,7 +519,7 @@ static void ui_draw_vision_cameradist(UIState *s) {
       color = COLOR_WHITE_ALPHA(0);
       ui_draw_rect(s->vg, rect, color, 10, 0.);
       const std::string cameradistkm_str = std::to_string((int)std::nearbyint(cameradistkm));
-      ui_draw_text(s, rect.centerX() - 20, bdr_s+980, cameradistkm_str, 34 * 2.0, COLOR_WHITE, "sans-bold");
+      ui_draw_text(s, rect.centerX() - 20, bdr_s+980, cameradistkm_str.c_str(), 34 * 2.0, COLOR_WHITE, "sans-bold");
       ui_draw_text(s, rect.centerX() + 55, bdr_s+980, "km", 25 * 1.6, COLOR_WHITE, "sans-bold");
     } else if (s->scene.mapSign == 165 && s->scene.limitSpeedCameraDist > 1000 && s->scene.liveMapData.opkrspeedlimitdist != 0){
       color = COLOR_WHITE_ALPHA(0);
@@ -545,7 +545,7 @@ static void ui_draw_vision_cameradist(UIState *s) {
       color = COLOR_WHITE_ALPHA(0);
       ui_draw_rect(s->vg, rect, color, 10, 0.);
       const std::string cameradistkm_str = std::to_string((int)std::nearbyint(cameradistkm));
-      ui_draw_text(s, rect.centerX() - 20, bdr_s+980, cameradistkm_str, 34 * 2.0, COLOR_WHITE, "sans-bold");
+      ui_draw_text(s, rect.centerX() - 20, bdr_s+980, cameradistkm_str.c_str(), 34 * 2.0, COLOR_WHITE, "sans-bold");
       ui_draw_text(s, rect.centerX() + 55, bdr_s+980, "km", 25 * 1.6, COLOR_WHITE, "sans-bold");
     } else if (s->scene.mapSign == 165 && s->scene.limitSpeedCameraDist > 1000 && s->scene.liveMapData.opkrspeedlimitdist != 0){
       color = COLOR_WHITE_ALPHA(0);
