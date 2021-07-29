@@ -470,6 +470,7 @@ UserPanel::UserPanel(QWidget* parent) : QWidget(parent) {
 
   // OPKR
   layout->addWidget(new LabelControl("UI설정", ""));
+  layout->addWidget(new CameraWarningToggle());
   layout->addWidget(new AutoShutdown());
   layout->addWidget(new ForceShutdown());
   //layout->addWidget(new AutoScreenDimmingToggle());
@@ -538,7 +539,6 @@ UserPanel::UserPanel(QWidget* parent) : QWidget(parent) {
   layout->addWidget(new DebugUiOneToggle());
   layout->addWidget(new DebugUiTwoToggle());
   layout->addWidget(new LongLogToggle());
-  layout->addWidget(new CameraWarningToggle());
   layout->addWidget(new PrebuiltToggle());
   layout->addWidget(new FPTwoToggle());
   layout->addWidget(new LDWSToggle());

@@ -347,18 +347,6 @@ public:
   }
 };
 
-class CameraWarningToggle : public ToggleControl {
-  Q_OBJECT
-
-public:
-  CameraWarningToggle() : ToggleControl("과속단속 이미지 위치 변경", "OFF : 크루즈갭 아래 , ON : 크루즈속도 오른편 에 과속단속 관련 이미지가 표시됩니다.", "../assets/offroad/icon_shell.png", Params().getBool("CameraWarning")) {
-    QObject::connect(this, &CameraWarningToggle::toggleFlipped, [=](int state) {
-      char value = state ? '1' : '0';
-      Params().put("CameraWarning", &value, 1);
-    });
-  }
-};
-
 class PrebuiltToggle : public ToggleControl {
   Q_OBJECT
 
@@ -502,6 +490,18 @@ private:
 
 
 // UI 설정
+class CameraWarningToggle : public ToggleControl {
+  Q_OBJECT
+
+public:
+  CameraWarningToggle() : ToggleControl("과속단속 이미지 위치 변경", "OFF : 크루즈갭 아래 , ON : 크루즈속도 오른편 에 과속단속 관련 이미지가 표시됩니다.", "../assets/offroad/icon_shell.png", Params().getBool("CameraWarning")) {
+    QObject::connect(this, &CameraWarningToggle::toggleFlipped, [=](int state) {
+      char value = state ? '1' : '0';
+      Params().put("CameraWarning", &value, 1);
+    });
+  }
+};
+
 class AutoShutdown : public AbstractControl {
   Q_OBJECT
 
