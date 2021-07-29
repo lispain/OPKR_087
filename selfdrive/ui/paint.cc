@@ -521,7 +521,7 @@ static void ui_draw_vision_cameradist(UIState *s) {
       const std::string cameradistkm_str = std::to_string((int)std::nearbyint(cameradistkm));
       ui_draw_text(s, rect.centerX() - 20, bdr_s+980, cameradistkm_str.c_str(), 34 * 2.0, COLOR_WHITE, "sans-bold");
       ui_draw_text(s, rect.centerX() + 55, bdr_s+980, "km", 25 * 1.6, COLOR_WHITE, "sans-bold");
-    } else if (s->scene.liveMapData.opkrspeedlimitdist > 1000 && s->scene.liveMapData.opkrspeedlimitdist != 0){
+    } else if (s->scene.liveMapData.opkrspeedlimit > 29 && s->scene.liveMapData.opkrspeedlimitdist > 1000 && s->scene.liveMapData.opkrspeedlimitdist != 0){
       color = COLOR_WHITE_ALPHA(0);
       ui_draw_rect(s->vg, rect, color, 10, 0.);
       //const std::string cameradist_str = std::to_string((int)std::nearbyint(cameradist));
