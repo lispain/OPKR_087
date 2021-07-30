@@ -265,8 +265,9 @@ static void ui_draw_world(UIState *s) {
   }
   nvgResetScissor(s->vg);
 }
-/*
+
 // TPMS code added from OPKR
+
 static void ui_draw_tpms(UIState *s) {
   char tpmsFl[32];
   char tpmsFr[32];
@@ -289,53 +290,56 @@ static void ui_draw_tpms(UIState *s) {
   if (minv > s->scene.tpmsPressureRl) {minv = s->scene.tpmsPressureRl;}
   if (minv > s->scene.tpmsPressureRr) {minv = s->scene.tpmsPressureRr;}
 
-  // Draw Border
-  ui_draw_rect(s->vg, rect, COLOR_WHITE_ALPHA(100), 10, 20.);
-  // Draw Background
-  if ((maxv - minv) > 3) {
-    ui_fill_rect(s->vg, rect, COLOR_RED_ALPHA(80), 20);
-  } else {
-    ui_fill_rect(s->vg, rect, COLOR_BLACK_ALPHA(80), 20);
-  }
+  if (s->nTpmsDisplay) {
+    // Draw Border
+    ui_draw_rect(s->vg, rect, COLOR_WHITE_ALPHA(100), 10, 20.);
+    // Draw Background
+    if ((maxv - minv) > 3) {
+      ui_fill_rect(s->vg, rect, COLOR_RED_ALPHA(80), 20);
+    } else {
+      ui_fill_rect(s->vg, rect, COLOR_BLACK_ALPHA(80), 20);
+    }
 
-  nvgTextAlign(s->vg, NVG_ALIGN_CENTER | NVG_ALIGN_BASELINE);
-  const int pos_x = viz_tpms_x + (viz_tpms_w / 2);
-  const int pos_y = viz_tpms_y + 45;
-  ui_draw_text(s, pos_x, pos_y, "TPMS(psi)", 45, COLOR_WHITE_ALPHA(180), "sans-regular");
-  snprintf(tpmsFl, sizeof(tpmsFl), "%.1f", s->scene.tpmsPressureFl);
-  snprintf(tpmsFr, sizeof(tpmsFr), "%.1f", s->scene.tpmsPressureFr);
-  snprintf(tpmsRl, sizeof(tpmsRl), "%.1f", s->scene.tpmsPressureRl);
-  snprintf(tpmsRr, sizeof(tpmsRr), "%.1f", s->scene.tpmsPressureRr);
-  if (s->scene.tpmsPressureFl < 34) {
-    ui_draw_text(s, pos_x-55, pos_y+50, tpmsFl, 60, COLOR_RED, "sans-bold");
-  } else if (s->scene.tpmsPressureFl > 50) {
-    ui_draw_text(s, pos_x-55, pos_y+50, "N/A", 60, COLOR_WHITE_ALPHA(200), "sans-semibold");
-  } else {
-    ui_draw_text(s, pos_x-55, pos_y+50, tpmsFl, 60, COLOR_WHITE_ALPHA(200), "sans-semibold");
-  }
-  if (s->scene.tpmsPressureFr < 34) {
-    ui_draw_text(s, pos_x+55, pos_y+50, tpmsFr, 60, COLOR_RED, "sans-bold");
-  } else if (s->scene.tpmsPressureFr > 50) {
-    ui_draw_text(s, pos_x+55, pos_y+50, "N/A", 60, COLOR_WHITE_ALPHA(200), "sans-semibold");
-  } else {
-    ui_draw_text(s, pos_x+55, pos_y+50, tpmsFr, 60, COLOR_WHITE_ALPHA(200), "sans-semibold");
-  }
-  if (s->scene.tpmsPressureRl < 34) {
-    ui_draw_text(s, pos_x-55, pos_y+100, tpmsRl, 60, COLOR_RED, "sans-bold");
-  } else if (s->scene.tpmsPressureRl > 50) {
-    ui_draw_text(s, pos_x-55, pos_y+100, "N/A", 60, COLOR_WHITE_ALPHA(200), "sans-semibold");
-  } else {
-    ui_draw_text(s, pos_x-55, pos_y+100, tpmsRl, 60, COLOR_WHITE_ALPHA(200), "sans-semibold");
-  }
-  if (s->scene.tpmsPressureRr < 34) {
-    ui_draw_text(s, pos_x+55, pos_y+100, tpmsRr, 60, COLOR_RED, "sans-bold");
-  } else if (s->scene.tpmsPressureRr > 50) {
-    ui_draw_text(s, pos_x+55, pos_y+100, "N/A", 60, COLOR_WHITE_ALPHA(200), "sans-semibold");
-  } else {
-    ui_draw_text(s, pos_x+55, pos_y+100, tpmsRr, 60, COLOR_WHITE_ALPHA(200), "sans-semibold");
+    nvgTextAlign(s->vg, NVG_ALIGN_CENTER | NVG_ALIGN_BASELINE);
+    const int pos_x = viz_tpms_x + (viz_tpms_w / 2);
+    const int pos_y = viz_tpms_y + 45;
+    ui_draw_text(s, pos_x, pos_y, "TPMS(psi)", 45, COLOR_WHITE_ALPHA(180), "sans-regular");
+    snprintf(tpmsFl, sizeof(tpmsFl), "%.1f", s->scene.tpmsPressureFl);
+    snprintf(tpmsFr, sizeof(tpmsFr), "%.1f", s->scene.tpmsPressureFr);
+    snprintf(tpmsRl, sizeof(tpmsRl), "%.1f", s->scene.tpmsPressureRl);
+    snprintf(tpmsRr, sizeof(tpmsRr), "%.1f", s->scene.tpmsPressureRr);
+    if (s->scene.tpmsPressureFl < 34) {
+      ui_draw_text(s, pos_x-55, pos_y+50, tpmsFl, 60, COLOR_RED, "sans-bold");
+    } else if (s->scene.tpmsPressureFl > 50) {
+      ui_draw_text(s, pos_x-55, pos_y+50, "N/A", 60, COLOR_WHITE_ALPHA(200), "sans-semibold");
+    } else {
+      ui_draw_text(s, pos_x-55, pos_y+50, tpmsFl, 60, COLOR_WHITE_ALPHA(200), "sans-semibold");
+    }
+    if (s->scene.tpmsPressureFr < 34) {
+      ui_draw_text(s, pos_x+55, pos_y+50, tpmsFr, 60, COLOR_RED, "sans-bold");
+    } else if (s->scene.tpmsPressureFr > 50) {
+      ui_draw_text(s, pos_x+55, pos_y+50, "N/A", 60, COLOR_WHITE_ALPHA(200), "sans-semibold");
+    } else {
+      ui_draw_text(s, pos_x+55, pos_y+50, tpmsFr, 60, COLOR_WHITE_ALPHA(200), "sans-semibold");
+    }
+    if (s->scene.tpmsPressureRl < 34) {
+      ui_draw_text(s, pos_x-55, pos_y+100, tpmsRl, 60, COLOR_RED, "sans-bold");
+    } else if (s->scene.tpmsPressureRl > 50) {
+      ui_draw_text(s, pos_x-55, pos_y+100, "N/A", 60, COLOR_WHITE_ALPHA(200), "sans-semibold");
+    } else {
+      ui_draw_text(s, pos_x-55, pos_y+100, tpmsRl, 60, COLOR_WHITE_ALPHA(200), "sans-semibold");
+    }
+    if (s->scene.tpmsPressureRr < 34) {
+      ui_draw_text(s, pos_x+55, pos_y+100, tpmsRr, 60, COLOR_RED, "sans-bold");
+    } else if (s->scene.tpmsPressureRr > 50) {
+      ui_draw_text(s, pos_x+55, pos_y+100, "N/A", 60, COLOR_WHITE_ALPHA(200), "sans-semibold");
+    } else {
+      ui_draw_text(s, pos_x+55, pos_y+100, tpmsRr, 60, COLOR_WHITE_ALPHA(200), "sans-semibold");
+    }
   }
 }
-*/
+
+
 static void ui_draw_standstill(UIState *s) {
   UIScene &scene = s->scene;
 
@@ -1353,7 +1357,7 @@ static void ui_draw_vision_header(UIState *s) {
   
   if (!s->scene.comma_stock_ui) {
     bb_ui_draw_UI(s);
-    //ui_draw_tpms(s);
+    ui_draw_tpms(s);
     //if (s->scene.apks_enabled) draw_navi_button(s);
   }
   //if (s->scene.end_to_end && !s->scene.comma_stock_ui) {

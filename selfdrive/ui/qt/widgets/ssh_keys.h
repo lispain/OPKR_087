@@ -502,6 +502,18 @@ public:
   }
 };
 
+class TpmsDisplayToggle : public ToggleControl {
+  Q_OBJECT
+
+public:
+  TpmsDisplayToggle() : ToggleControl("TPMS정보 표시", "TPMS정보를 이온 화면상에 표시합니다.", "../assets/offroad/icon_shell.png", Params().getBool("TpmsDisplay")) {
+    QObject::connect(this, &TpmsDisplayToggle::toggleFlipped, [=](int state) {
+      char value = state ? '1' : '0';
+      Params().put("TpmsDisplay", &value, 1);
+    });
+  }
+};
+
 class AutoShutdown : public AbstractControl {
   Q_OBJECT
 

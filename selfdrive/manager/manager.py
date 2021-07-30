@@ -96,6 +96,7 @@ def manager_init():
     ("DebugUi2", "0"),
     ("LongLogDisplay", "0"),
     ("CameraWarning", "0"),
+    ("TpmsDisplay", "0"),
     ("OpkrBlindSpotDetect", "1"),
     ("OpkrMaxAngleLimit", "90"),
     ("OpkrSpeedLimitOffset", "0"),

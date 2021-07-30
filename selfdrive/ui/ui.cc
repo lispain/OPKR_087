@@ -407,6 +407,7 @@ static void update_status(UIState *s) {
       s->nDebugUi1 = Params().getBool("DebugUi1");
       s->nDebugUi2 = Params().getBool("DebugUi2");
       s->nCameraWarning = Params().getBool("CameraWarning");
+      s->nTpmsDisplay = Params().getBool("TpmsDisplay");
       s->scene.forceGearD = Params().getBool("JustDoGearD");
       s->nOpkrBlindSpotDetect = Params().getBool("OpkrBlindSpotDetect");
       s->scene.laneless_mode = std::stoi(Params().get("LanelessMode"));

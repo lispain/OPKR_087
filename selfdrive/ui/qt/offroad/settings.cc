@@ -471,6 +471,7 @@ UserPanel::UserPanel(QWidget* parent) : QWidget(parent) {
   // OPKR
   layout->addWidget(new LabelControl("UI설정", ""));
   layout->addWidget(new CameraWarningToggle());
+  layout->addWidget(new TpmsDisplayToggle());
   layout->addWidget(new AutoShutdown());
   layout->addWidget(new ForceShutdown());
   //layout->addWidget(new AutoScreenDimmingToggle());

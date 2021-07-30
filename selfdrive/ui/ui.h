@@ -300,6 +300,7 @@ typedef struct UIState {
   bool nDebugUi1;
   bool nDebugUi2;
   bool nCameraWarning;
+  bool nTpmsDisplay;
   bool nOpkrBlindSpotDetect;
   bool sidebar_view;
 
