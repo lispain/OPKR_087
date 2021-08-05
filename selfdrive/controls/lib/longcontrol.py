@@ -145,7 +145,7 @@ class LongControl():
       deadzone = interp(v_ego_pid, CP.longitudinalTuning.deadzoneBP, CP.longitudinalTuning.deadzoneV)
 
       # opkr
-      if self.vRel_prev != vRel and vRel <= 0 and CS.vEgo > 13. and self.damping_timer == 0: # decel mitigation for a while
+      if self.vRel_prev != vRel and vRel <= 0 and CS.vEgo > 13. and self.damping_timer <= 0: # decel mitigation for a while
         if (vRel - self.vRel_prev)*3.6 < -4:
           self.damping_timer = 45
           self.decel_damping2 = interp(abs((vRel - self.vRel_prev)*3.6), [0, 10], [1, 0.03])
@@ -155,7 +155,7 @@ class LongControl():
         self.decel_damping = interp(self.damping_timer, [0, 45], [1, self.decel_damping2])
 
       output_gb = self.pid.update(self.v_pid, v_ego_pid, speed=v_ego_pid, deadzone=deadzone, feedforward=a_target, freeze_integrator=prevent_overshoot)
-      # output_gb *= self.decel_damping
+      output_gb *= self.decel_damping
 
       if prevent_overshoot or CS.brakeHold:
         output_gb = min(output_gb, 0.0)

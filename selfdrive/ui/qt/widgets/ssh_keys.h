@@ -780,10 +780,12 @@ public:
   SRBaseControl();
 
 private:
-  QPushButton btnplus;
+  QPushButton btndigit;
   QPushButton btnminus;
+  QPushButton btnplus;
   QLabel label;
   Params params;
+  float digit = 0.01;
   
   void refresh();
 };
@@ -794,10 +796,12 @@ public:
   SRMaxControl();
 
 private:
-  QPushButton btnplus;
+  QPushButton btndigit;
   QPushButton btnminus;
+  QPushButton btnplus;
   QLabel label;
   Params params;
+  float digit = 0.01;
   
   void refresh();
 };

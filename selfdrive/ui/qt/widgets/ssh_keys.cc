@@ -2225,33 +2225,70 @@ SRBaseControl::SRBaseControl() : AbstractControl("SteerRatio", "SteerRatio 기�
   label.setStyleSheet("color: #e0e879");
   hlayout->addWidget(&label);
 
+  btndigit.setStyleSheet(R"(
+    QPushButton {
+      padding: 0;
+      border-radius: 50px;
+      font-size: 35px;
+      font-weight: 500;
+      color: #E4E4E4;
+      background-color: #393939;
+    }
+    QPushButton:pressed {
+      background-color: #ababab;
+    }
+  )");
   btnminus.setStyleSheet(R"(
-    padding: 0;
-    border-radius: 50px;
-    font-size: 35px;
-    font-weight: 500;
-    color: #E4E4E4;
-    background-color: #393939;
+    QPushButton {
+      padding: 0;
+      border-radius: 50px;
+      font-size: 35px;
+      font-weight: 500;
+      color: #E4E4E4;
+      background-color: #393939;
+    }
+    QPushButton:pressed {
+      background-color: #ababab;
+    }
   )");
   btnplus.setStyleSheet(R"(
-    padding: 0;
-    border-radius: 50px;
-    font-size: 35px;
-    font-weight: 500;
-    color: #E4E4E4;
-    background-color: #393939;
+    QPushButton {
+      padding: 0;
+      border-radius: 50px;
+      font-size: 35px;
+      font-weight: 500;
+      color: #E4E4E4;
+      background-color: #393939;
+    }
+    QPushButton:pressed {
+      background-color: #ababab;
+    }
   )");
-  btnminus.setFixedSize(150, 100);
-  btnplus.setFixedSize(150, 100);
+  btndigit.setFixedSize(100, 100);
+  btnminus.setFixedSize(100, 100);
+  btnplus.setFixedSize(100, 100);
+  hlayout->addWidget(&btndigit);
   hlayout->addWidget(&btnminus);
   hlayout->addWidget(&btnplus);
+  btndigit.setText("0.01");
+  btnminus.setText("-");
+  btnplus.setText("+");
+
+  QObject::connect(&btndigit, &QPushButton::clicked, [=]() {
+    digit = digit * 10;
+    if (digit >= 11 ) {
+      digit = 0.01;
+    }
+    QString level = QString::number(digit);
+    btndigit.setText(level);
+  });
 
   QObject::connect(&btnminus, &QPushButton::clicked, [=]() {
     auto str = QString::fromStdString(params.get("SteerRatioAdj"));
     int value = str.toInt();
-    value = value - 1;
-    if (value <= 80 ) {
-      value = 80;
+    value = value - (digit*100);
+    if (value <= 800) {
+      value = 800;
     }
     QString values = QString::number(value);
     params.put("SteerRatioAdj", values.toStdString());
@@ -2261,9 +2298,9 @@ SRBaseControl::SRBaseControl() : AbstractControl("SteerRatio", "SteerRatio 기�
   QObject::connect(&btnplus, &QPushButton::clicked, [=]() {
     auto str = QString::fromStdString(params.get("SteerRatioAdj"));
     int value = str.toInt();
-    value = value + 1;
-    if (value >= 200) {
-      value = 200;
+    value = value + (digit*100);
+    if (value >= 2000) {
+      value = 2000;
     }
     QString values = QString::number(value);
     params.put("SteerRatioAdj", values.toStdString());
@@ -2275,11 +2312,9 @@ SRBaseControl::SRBaseControl() : AbstractControl("SteerRatio", "SteerRatio 기�
 void SRBaseControl::refresh() {
   auto strs = QString::fromStdString(params.get("SteerRatioAdj"));
   int valuei = strs.toInt();
-  float valuef = valuei * 0.1;
+  float valuef = valuei * 0.01;
   QString valuefs = QString::number(valuef);
   label.setText(QString::fromStdString(valuefs.toStdString()));
-  btnminus.setText("－");
-  btnplus.setText("＋");
 }
 
 SRMaxControl::SRMaxControl() : AbstractControl("SteerRatioMax", "SteerRatio 최대값을 설정합니다.", "../assets/offroad/icon_shell.png") {
@@ -2288,33 +2323,70 @@ SRMaxControl::SRMaxControl() : AbstractControl("SteerRatioMax", "SteerRatio 최�
   label.setStyleSheet("color: #e0e879");
   hlayout->addWidget(&label);
 
+  btndigit.setStyleSheet(R"(
+    QPushButton {
+      padding: 0;
+      border-radius: 50px;
+      font-size: 35px;
+      font-weight: 500;
+      color: #E4E4E4;
+      background-color: #393939;
+    }
+    QPushButton:pressed {
+      background-color: #ababab;
+    }
+  )");
   btnminus.setStyleSheet(R"(
-    padding: 0;
-    border-radius: 50px;
-    font-size: 35px;
-    font-weight: 500;
-    color: #E4E4E4;
-    background-color: #393939;
+    QPushButton {
+      padding: 0;
+      border-radius: 50px;
+      font-size: 35px;
+      font-weight: 500;
+      color: #E4E4E4;
+      background-color: #393939;
+    }
+    QPushButton:pressed {
+      background-color: #ababab;
+    }
   )");
   btnplus.setStyleSheet(R"(
-    padding: 0;
-    border-radius: 50px;
-    font-size: 35px;
-    font-weight: 500;
-    color: #E4E4E4;
-    background-color: #393939;
+    QPushButton {
+      padding: 0;
+      border-radius: 50px;
+      font-size: 35px;
+      font-weight: 500;
+      color: #E4E4E4;
+      background-color: #393939;
+    }
+    QPushButton:pressed {
+      background-color: #ababab;
+    }
   )");
-  btnminus.setFixedSize(150, 100);
-  btnplus.setFixedSize(150, 100);
+  btndigit.setFixedSize(100, 100);
+  btnminus.setFixedSize(100, 100);
+  btnplus.setFixedSize(100, 100);
+  hlayout->addWidget(&btndigit);
   hlayout->addWidget(&btnminus);
   hlayout->addWidget(&btnplus);
+  btndigit.setText("0.01");
+  btnminus.setText("-");
+  btnplus.setText("+");
+
+  QObject::connect(&btndigit, &QPushButton::clicked, [=]() {
+    digit = digit * 10;
+    if (digit >= 11 ) {
+      digit = 0.01;
+    }
+    QString level = QString::number(digit);
+    btndigit.setText(level);
+  });
 
   QObject::connect(&btnminus, &QPushButton::clicked, [=]() {
     auto str = QString::fromStdString(params.get("SteerRatioMaxAdj"));
     int value = str.toInt();
-    value = value - 1;
-    if (value <= 100 ) {
-      value = 100;
+    value = value - (digit*100);
+    if (value <= 800) {
+      value = 800;
     }
     QString values = QString::number(value);
     params.put("SteerRatioMaxAdj", values.toStdString());
@@ -2324,9 +2396,9 @@ SRMaxControl::SRMaxControl() : AbstractControl("SteerRatioMax", "SteerRatio 최�
   QObject::connect(&btnplus, &QPushButton::clicked, [=]() {
     auto str = QString::fromStdString(params.get("SteerRatioMaxAdj"));
     int value = str.toInt();
-    value = value + 1;
-    if (value >= 250 ) {
-      value = 250;
+    value = value + (digit*100);
+    if (value >= 2000) {
+      value = 2000;
     }
     QString values = QString::number(value);
     params.put("SteerRatioMaxAdj", values.toStdString());
@@ -2338,11 +2410,9 @@ SRMaxControl::SRMaxControl() : AbstractControl("SteerRatioMax", "SteerRatio 최�
 void SRMaxControl::refresh() {
   auto strs = QString::fromStdString(params.get("SteerRatioMaxAdj"));
   int valuei = strs.toInt();
-  float valuef = valuei * 0.1;
+  float valuef = valuei * 0.01;
   QString valuefs = QString::number(valuef);
   label.setText(QString::fromStdString(valuefs.toStdString()));
-  btnminus.setText("－");
-  btnplus.setText("＋");
 }
 
 SteerActuatorDelay::SteerActuatorDelay() : AbstractControl("SteerActuatorDelay", "SteerActuatorDelay값을 조정합니다.", "../assets/offroad/icon_shell.png") {
@@ -2501,7 +2571,7 @@ SteerLimitTimer::SteerLimitTimer() : AbstractControl("SteerLimitTimer", "SteerLi
   QObject::connect(&btnminus, &QPushButton::clicked, [=]() {
     auto str = QString::fromStdString(params.get("SteerLimitTimerAdj"));
     int value = str.toInt();
-    value = value - 1;
+    value = value - 5;
     if (value <= 0 ) {
       value = 0;
     }
@@ -2513,7 +2583,7 @@ SteerLimitTimer::SteerLimitTimer() : AbstractControl("SteerLimitTimer", "SteerLi
   QObject::connect(&btnplus, &QPushButton::clicked, [=]() {
     auto str = QString::fromStdString(params.get("SteerLimitTimerAdj"));
     int value = str.toInt();
-    value = value + 1;
+    value = value + 5;
     if (value >= 300 ) {
       value = 300;
     }
